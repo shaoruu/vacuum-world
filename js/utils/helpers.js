@@ -1,13 +1,24 @@
-function mergeGeometries(geoData) {
-  if (!geometries || geometries.length === 0) return null
+function tweenToPosition(mesh, position, delay = 200) {
+  return new TWEEN.Tween(mesh.position).to(position, delay).start()
+}
 
-  const mergedGeometry = new THREE.Geometry()
-  const matrix = new THREE.Matrix4()
+function tweenToRotation(mesh, rotation, delay = DEFAULT_DELAY) {
+  return new TWEEN.Tween(mesh.rotation).to({ y: rotation }, delay).start()
+}
 
-  geoData.forEach(({ geometry, pos }) => {
-    matrix.makeTranslation(pos.x, pos.y, pos.z)
-    mergedGeometry.merge(geometry, matrix)
-  })
+function tweenToDrink(mesh, rotation, totalDelay = DEFAULT_DELAY) {
+  const originalY = mesh.rotation.y
+  const t0 = new TWEEN.Tween(mesh.rotation)
+    .to({ y: originalY - rotation }, totalDelay / 3)
+    .easing(TWEEN.Easing.Quadratic.Out)
+  const t1 = new TWEEN.Tween(mesh.rotation)
+    .to({ y: originalY + rotation }, totalDelay / 3)
+    .easing(TWEEN.Easing.Quadratic.Out)
+  const t2 = new TWEEN.Tween(mesh.rotation)
+    .to({ y: originalY }, totalDelay / 3)
+    .easing(TWEEN.Easing.Quadratic.Out)
 
-  return new THREE.BufferGeometry().fromGeometry(mergedGeometry)
+  t0.chain(t1)
+  t1.chain(t2)
+  return t0.start()
 }

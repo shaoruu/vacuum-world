@@ -5,3 +5,8 @@ function onWindowResize() {
 }
 
 window.addEventListener('resize', onWindowResize, false)
+
+window.addEventListener('keydown', e => {
+  const { keyCode } = e
+  if (keyCode === 65) Platforms.restart()
+})
