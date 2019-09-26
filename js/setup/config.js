@@ -8,7 +8,7 @@ const FOG_FAR = 3000
 /* -------------------------------------------------------------------------- */
 /*                                   COLORS                                   */
 /* -------------------------------------------------------------------------- */
-const BACKGROUND_COLOR = 0x111111
+const BACKGROUND_COLOR = 0xdddddd
 const PLATFORM_COLOR = 0x222831
 
 const CANVAS_BORDER_COLOR = '#222831'
