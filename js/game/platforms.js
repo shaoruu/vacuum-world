@@ -4,9 +4,10 @@
  *  2 - average
  *  3 - smart
  */
-function PlatformProto(type) {
+function PlatformProto(type, gridData) {
   this.type = type
 
+  this.grid = JSON.parse(JSON.stringify(gridData))
   this.init()
 }
 
@@ -35,10 +36,6 @@ PlatformProto.prototype.init = function() {
   /* -------------------------------------------------------------------------- */
   /*                                INIT GARBAGE                                */
   /* -------------------------------------------------------------------------- */
-  // this.grid = [Number(Math.random() > 0.5)]
-  // this.grid.push(this.grid[0] ? Number(Math.random() > 0.5) : 1)
-  this.grid = [1, 1]
-
   this.treatMeshes = new THREE.Group()
   this.treatMeshes.position.y = TREAT_Y_OFFSET
 
@@ -74,6 +71,9 @@ PlatformProto.prototype.update = function() {
 const Platforms = (function() {
   let instances = new Map()
 
+  let grid = [Number(Math.random() > 0.5)]
+  grid.push(grid[0] ? Number(Math.random() > 0.5) : 1)
+
   return {
     getInstances() {
       return instances
@@ -82,7 +82,7 @@ const Platforms = (function() {
       return instances.get(type)
     },
     addInstance(type) {
-      const newInstance = new PlatformProto(type)
+      const newInstance = new PlatformProto(type, grid)
 
       instances.set(type, newInstance)
 
@@ -98,6 +98,9 @@ const Platforms = (function() {
       instances.forEach((_, k) => instances.delete(k))
 
       addLights()
+
+      grid = [Number(Math.random() > 0.5)]
+      grid.push(grid[0] ? Number(Math.random() > 0.5) : 1)
 
       this.addInstance(DUMB_TYPE)
       this.addInstance(AVG_TYPE)
